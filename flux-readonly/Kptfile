@@ -1,0 +1,11 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+    name: flux-readonly
+upstream:
+    type: git
+    git:
+        commit: 2f8e2075784fdc217c4359a5f25286d46230eda8
+        repo: https://github.com/fluxcd/flux
+        directory: /deploy
+        ref: master
