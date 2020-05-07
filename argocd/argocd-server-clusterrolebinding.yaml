@@ -13,4 +13,4 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: argocd-server
-  namespace: argocd-system
+  namespace: argocd-system # {"$ref":"#/definitions/io.k8s.cli.setters.namespace"}

@@ -4,3 +4,10 @@ metadata:
   name: argocd
 packageMetadata:
   shortDescription: Model for ArgoCD
+openAPI:
+  definitions:
+    io.k8s.cli.setters.namespace:
+      x-k8s-cli:
+        setter:
+          name: namespace
+          value: argocd-system

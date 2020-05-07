@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/name: argocd-repo-server
     app.kubernetes.io/part-of: argocd
   name: argocd-repo-server
-  namespace: argocd-system
+  namespace: argocd-system # {"$ref":"#/definitions/io.k8s.cli.setters.namespace"}
 spec:
   ports:
   - name: server

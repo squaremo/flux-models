@@ -5,4 +5,4 @@ metadata:
     app.kubernetes.io/name: argocd-rbac-cm
     app.kubernetes.io/part-of: argocd
   name: argocd-rbac-cm
-  namespace: argocd-system
+  namespace: argocd-system # {"$ref":"#/definitions/io.k8s.cli.setters.namespace"}
