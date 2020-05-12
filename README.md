@@ -64,3 +64,45 @@ $ kubectl logs -n flux-system deploy/flux -f
 # logs ...
 # logs ...
 ```
+
+### How to run the ArgoCD model
+
+Once you have a self-sustaining Flux installation, you can add things
+to the repo and they will be applied. For example, the ArgoCD model:
+
+```
+$ kpt pkg get $REPO_MODELS/argocd argocd
+fetching package /argocd from https://github.com/squaremo/flux-models to argocd
+$ git add argocd
+$ git commit -m "Added argocd model as argocd/"
+$ kpt cfg list-setters ./argocd
+    NAME          VALUE       SET BY   DESCRIPTION   COUNT
+  namespace   argocd-system                          28
+$ # Nothing needs changing
+$ git push origin master
+```
+
+(NB the model runs ArgoCD in the namespace `argocd-system`, which is
+different to the regular ArgoCD installation. This affects the
+port-forward later on.)
+
+It might take a while for Flux to sync it, since it's just polling
+(you could set up [webhooks](https://github.com/fluxcd/flux-recv) --
+maybe later). You can watch the logs to see when something happens:
+
+```sh
+$ kubectl logs -n flux-system deploy/flux -f
+# logs logs logs ...
+ts=2020-05-12T05:33:04.7525229Z caller=loop.go:133 component=sync-loop event=refreshed url=https://@github.com/squaremo/flux-models-bootstrap branch=master HEAD=d1b2d98c951d28cff9cbf8344c44d908e91c9b09
+```
+
+Now you should be able to bring up the ArgoCD user interface, by
+running a port-forward:
+
+```sh
+$ kubectl port-forward svc/argocd-server -n argocd-system 8083:443 &
+```
+
+.. and open a browser tab on https://localhost:8083 (it may complain
+that the server certificate is not signed for localhost, which you'll
+have to click through).
